@@ -43,7 +43,7 @@ public class SpiderLeg {
 
             // HTTP Code 200 ís the OK Status
             if (connection.response().statusCode() == 200){
-                System.out.println("WORKING... ");
+                System.out.println("\nWORKING... ");
                 System.out.println("Received web page at " + url + "");
             }
 
