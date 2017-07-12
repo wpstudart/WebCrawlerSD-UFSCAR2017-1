@@ -33,6 +33,7 @@ public class Spider {
             }
             leg.crawl(currentURL); // Check the crawl method in Spider Leg
 
+            boolean success = leg.searchForWord(searchWord);
             if(success){
                 System.out.println(String.format(" SUCCESS! Word %s found at %s",searchWord,currentURL));
                 break;
@@ -44,7 +45,8 @@ public class Spider {
         System.out.println("\n DONE! Visited " + this.pagesVisited.size() + " web page(s)");
     }
 
-    /* Get the first Entry from pagesToVisit, make sure that URL isn't in the set of URL already visited
+    /*
+     * Get the first Entry from pagesToVisit, make sure that URL isn't in the set of URL already visited
      * and then return it.
      */
 
