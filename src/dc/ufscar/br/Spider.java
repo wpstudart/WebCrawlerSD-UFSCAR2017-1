@@ -76,7 +76,7 @@ public class Spider {
 
     //Essa funcao faz a requisição de uma url para o servidor e retorna a url na forma de string
     public String requestUrl() {
-        String ip = "http://projetosd.ddns.net:8080/phpserver";
+        String ip = "http://projetosd.ddns.net:4004/phpserver";
     //    String ip = "192.168.0.103/webapp";
 
         String reg_url = ip + "/requesturl.php";
@@ -106,7 +106,7 @@ public class Spider {
 
     //Esta função faz a requisição para o upload de uma nova url no servidor
     public void uploadUrl(String newurl){
-        String ip = "http://projetosd.ddns.net:8080/phpserver";
+        String ip = "http://projetosd.ddns.net:4004/phpserver";
         //    String ip = "192.168.0.103/webapp";
 
         try{
@@ -141,7 +141,7 @@ public class Spider {
 
     public void updateUrl(String newurl, String keyword)
     {
-        String ip = "http://projetosd.ddns.net:8080/phpserver";
+        String ip = "http://projetosd.ddns.net:4004/phpserver";
         //    String ip = "192.168.0.103/webapp";
 
         try{
