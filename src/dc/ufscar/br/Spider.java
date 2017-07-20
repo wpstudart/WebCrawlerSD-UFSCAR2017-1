@@ -35,6 +35,7 @@ public class Spider {
             if (this.pagesToVisit.isEmpty()){
                 currentURL = url;
                 this.pagesVisited.add(url);
+                uploadUrl(url);
             } else {
                 currentURL = this.nextURL();
             }
@@ -43,6 +44,7 @@ public class Spider {
             boolean success = leg.searchForWord(searchWord);
             if(success){
                 System.out.println(String.format(" SUCCESS! Word %s found at %s",searchWord,currentURL));
+                updateUrl(currentURL, searchWord);
                 break;
             }
             this.pagesToVisit.addAll(leg.getLinks());
@@ -73,7 +75,7 @@ public class Spider {
      */
 
     //Essa funcao faz a requisição de uma url para o servidor e retorna a url na forma de string
-    private String requestUrl() {
+    public String requestUrl() {
         String ip = "http://projetosd.ddns.net:8080/phpserver";
     //    String ip = "192.168.0.103/webapp";
 
@@ -103,7 +105,7 @@ public class Spider {
     }
 
     //Esta função faz a requisição para o upload de uma nova url no servidor
-    private void uploadUrl(String newurl){
+    public void uploadUrl(String newurl){
         String ip = "http://projetosd.ddns.net:8080/phpserver";
         //    String ip = "192.168.0.103/webapp";
 
@@ -137,7 +139,7 @@ public class Spider {
         catch (Exception e){e.printStackTrace();}
     }
 
-    private void updateUrl(String newurl, String newtitle, String categoria)
+    public void updateUrl(String newurl, String keyword)
     {
         String ip = "http://projetosd.ddns.net:8080/phpserver";
         //    String ip = "192.168.0.103/webapp";
@@ -151,8 +153,7 @@ public class Spider {
             OutputStream outputStream = httpURLConnection.getOutputStream();
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
             String data = URLEncoder.encode("url","UTF-8") + "=" + URLEncoder.encode(newurl,"UTF-8")  + "&" +
-                    URLEncoder.encode("newstitle","UTF-8")  + "=" + URLEncoder.encode(newtitle,"UTF-8") + "&" +
-                    URLEncoder.encode("categoria","UTF-8")   + "=" + URLEncoder.encode(categoria,"UTF-8");
+                    URLEncoder.encode("keyword","UTF-8")  + "=" + URLEncoder.encode(keyword,"UTF-8");
             bufferedWriter.write(data);
             bufferedWriter.flush();
             bufferedWriter.close();

@@ -60,6 +60,7 @@ public class SpiderLeg {
             }
 
             return true;
+
         } catch(IOException ie){
             System.out.println("ERROR! Couldn't make an HTTP request.");
             return false;
@@ -86,7 +87,7 @@ public class SpiderLeg {
             return false;
         }
 
-        System.out.println("Searching for the word" + searchWord + "...");
+        System.out.println("Searching for the word " + searchWord + "...");
         String bodyText = this.htmlDocument.body().text();
 
         return bodyText.toLowerCase().contains(searchWord.toLowerCase());
