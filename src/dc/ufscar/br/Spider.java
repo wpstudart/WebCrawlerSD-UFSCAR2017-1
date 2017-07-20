@@ -1,5 +1,12 @@
 package dc.ufscar.br;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -64,6 +71,113 @@ public class Spider {
     /*
      *
      */
+
+    //Essa funcao faz a requisição de uma url para o servidor e retorna a url na forma de string
+    private String requestUrl() {
+        String ip = "http://projetosd.ddns.net:8080/phpserver";
+    //    String ip = "192.168.0.103/webapp";
+
+        String reg_url = ip + "/requesturl.php";
+
+        try {
+            URL url = new URL(reg_url);
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            InputStream inputStream = httpURLConnection.getInputStream();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader((inputStream), "iso-8859-1"));
+            String result = "";
+            String line = "";
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+            bufferedReader.close();
+            inputStream.close();
+            httpURLConnection.disconnect();
+
+            JSONObject obj = new JSONObject(result);
+            String newurl = obj.getString("url");
+            return newurl;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    //Esta função faz a requisição para o upload de uma nova url no servidor
+    private void uploadUrl(String newurl){
+        String ip = "http://projetosd.ddns.net:8080/phpserver";
+        //    String ip = "192.168.0.103/webapp";
+
+        try{
+            URL url = new URL(ip + "/inserturl.php");
+            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.setDoInput(true);
+            OutputStream outputStream = httpURLConnection.getOutputStream();
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+            String data = URLEncoder.encode("url","UTF-8") + "=" + URLEncoder.encode(newurl,"UTF-8");
+            bufferedWriter.write(data);
+            bufferedWriter.flush();
+            bufferedWriter.close();
+            outputStream.close();
+
+            InputStream inputStream  = httpURLConnection.getInputStream();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader((inputStream),"iso-8859-1"));
+            String result = "";
+            String line = "";
+            while((line = bufferedReader.readLine())!= null){
+                result += line;
+            }
+            bufferedReader.close();
+            inputStream.close();
+            httpURLConnection.disconnect();
+            return;
+
+        }
+        catch (Exception e){e.printStackTrace();}
+    }
+
+    private void updateUrl(String newurl, String newtitle, String categoria)
+    {
+        String ip = "http://projetosd.ddns.net:8080/phpserver";
+        //    String ip = "192.168.0.103/webapp";
+
+        try{
+            URL url = new URL(ip + "/updateurl.php");
+            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setDoOutput(true);
+            httpURLConnection.setDoInput(true);
+            OutputStream outputStream = httpURLConnection.getOutputStream();
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+            String data = URLEncoder.encode("url","UTF-8") + "=" + URLEncoder.encode(newurl,"UTF-8")  + "&" +
+                    URLEncoder.encode("newstitle","UTF-8")  + "=" + URLEncoder.encode(newtitle,"UTF-8") + "&" +
+                    URLEncoder.encode("categoria","UTF-8")   + "=" + URLEncoder.encode(categoria,"UTF-8");
+            bufferedWriter.write(data);
+            bufferedWriter.flush();
+            bufferedWriter.close();
+            outputStream.close();
+
+            InputStream inputStream  = httpURLConnection.getInputStream();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader((inputStream),"iso-8859-1"));
+            String result = "";
+            String line = "";
+            while((line = bufferedReader.readLine())!= null){
+                result += line;
+            }
+            bufferedReader.close();
+            inputStream.close();
+            httpURLConnection.disconnect();
+            return;
+
+        }
+        catch (Exception e){e.printStackTrace();}
+    }
+
+
+    public void test(){
+
+    }
 
 
 }

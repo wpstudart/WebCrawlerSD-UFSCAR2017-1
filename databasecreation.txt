@@ -1,0 +1,5 @@
+create database newscrawler;
+
+CREATE TABLE newsurls(url varchar(1000) PRIMARY KEY NOT NULL, newstitle VARCHAR(50), visitada bit NOT NULL);
+
+CREATE TABLE categorias(categoria varchar(50), url varchar(1000), FOREIGN KEY (url)  REFERENCES newsurls(url));
