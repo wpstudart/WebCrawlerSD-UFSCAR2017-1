@@ -11,10 +11,12 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class Spider {
 
-    private static final int MAX_PAGE_SEARCH = 10; // Max number of pages to search
+    private static final int MAX_PAGE_SEARCH = 1000; // Max number of pages to search
     private Set<String> pagesVisited = new HashSet<String>(); // All pages visited will be unique
     private List<String> pagesToVisit = new LinkedList<String>(); // URL collected by the Crawler
 
@@ -35,7 +37,6 @@ public class Spider {
             if (this.pagesToVisit.isEmpty()){
                 currentURL = url;
                 this.pagesVisited.add(url);
-                uploadUrl(url);
             } else {
                 currentURL = this.nextURL();
             }
@@ -48,7 +49,9 @@ public class Spider {
                 break;
             }
             this.pagesToVisit.addAll(leg.getLinks());
-
+            for(String link : pagesToVisit){
+                uploadUrl(link);
+            }
         }
 
         System.out.println("\n DONE! Visited " + this.pagesVisited.size() + " web page(s)");
